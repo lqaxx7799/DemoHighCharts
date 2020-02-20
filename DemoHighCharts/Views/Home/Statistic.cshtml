@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Statistic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Statistic</h2>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div id="loadingXHR">
+            <h3><em>Loading<span class="loadingElipsisXHR"></span></em></h3>
+
+        </div>
+        <div id="revenueChartXHR"></div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div id="loadingFetch">
+            <h3><em>Loading<span class="loadingElipsisFetch"></span></em></h3>
+
+        </div>
+        <div id="revenueChartFetch"></div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var dotsXHR = 0;
+    var dotsFetch = 0;
+
+    function elipsisXHR() {
+        if (dotsXHR < 3) {
+            $('.loadingElipsisXHR').append('.');
+            dotsXHR++;
+        } else {
+            $('.loadingElipsisXHR').html('');
+            dotsXHR = 0;
+        }
+    }
+
+    function elipsisFetch() {
+        if (dotsFetch < 3) {
+            $('.loadingElipsisFetch').append('.');
+            dotsFetch++;
+        } else {
+            $('.loadingElipsisFetch').html('');
+            dotsFetch = 0;
+        }
+    }
+
+    $(document).ready(function () {
+
+        var loadingAnimationXHR = setInterval(elipsisXHR, 200);
+        var loadingAnimationFetch = setInterval(elipsisFetch, 200);
+
+        $.ajax({
+            type: 'GET',
+            url: '/api/Statistic',
+            success: function (data) {
+                $('#loadingXHR').empty();
+                clearInterval(loadingAnimationXHR);
+                let dateLabel = data.label.map(row => {
+                    let date = new Date(row);
+                    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                });
+
+                let myChartXHR = Highcharts.chart('revenueChartXHR', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Revenue of coffee shop using XmlHttpRequest (AJAX)'
+                    },
+                    xAxis: {
+                        categories: dateLabel,
+                        title: {
+                            text: 'Day'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Revenue ($)'
+                        },
+                        label: {
+                            formatter: function () {
+                                return '$' + this.value;
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Revenue',
+                        data: data.data,
+                        tooltip: {
+                            enable: true,
+                            valuePrefix: '$'
+                        },
+                        color: '#2240a3'
+                    }]
+                });
+            }
+        });
+
+        fetch('/api/Statistic', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                $('#loadingFetch').empty();
+                clearInterval(loadingAnimationFetch);
+                let dateLabel = data.label.map(row => {
+                    let date = new Date(row);
+                    return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                });
+
+                let myChartFetch = Highcharts.chart('revenueChartFetch', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Revenue of coffee shop using Fetch API'
+                    },
+                    xAxis: {
+                        categories: dateLabel,
+                        title: {
+                            text: 'Day'
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Revenue ($)'
+                        },
+                        label: {
+                            formatter: function () {
+                                return '$' + this.value;
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Revenue',
+                        data: data.data,
+                        tooltip: {
+                            enable: true,
+                            valuePrefix: '$'
+                        },
+                        color: '#b51914'
+                    }]
+                });
+            });
+
+    });
+</script>
+

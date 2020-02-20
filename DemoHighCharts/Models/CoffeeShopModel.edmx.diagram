@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="85f08a8527684701a0816dc9cbdb43b5" Name="Diagram1">
+        <EntityTypeShape EntityType="CoffeeShopDBModel.DirectOrderDetail" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeeShopDBModel.DirectOrder" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeeShopDBModel.MenuCategory" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeeShopDBModel.MenuItem" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CoffeeShopDBModel.Table" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="CoffeeShopDBModel.FK__DirectOrd__Direc__46B27FE2" ManuallyRouted="false" />
+        <AssociationConnector Association="CoffeeShopDBModel.FK_DirectOrderDetails_MenuItems" ManuallyRouted="false" />
+        <AssociationConnector Association="CoffeeShopDBModel.FK__DirectOrd__Table__43D61337" ManuallyRouted="false" />
+        <AssociationConnector Association="CoffeeShopDBModel.FK__MenuItems__MenuC__3864608B" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

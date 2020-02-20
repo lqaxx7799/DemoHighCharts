@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CoffeeShopDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DirectOrderDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DirectOrderId" Type="int" />
+          <Property Name="MenuItemId" Type="int" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="PriceEach" Type="float" />
+        </EntityType>
+        <EntityType Name="DirectOrders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArrivedTime" Type="datetime" />
+          <Property Name="LeavedTime" Type="datetime" />
+          <Property Name="TableId" Type="int" />
+          <Property Name="TotalPrice" Type="float" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="MenuCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="MenuItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="255" />
+          <Property Name="MenuCategoryId" Type="int" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="Description" Type="ntext" />
+          <Property Name="PictureUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Sale_Amount" Type="float" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+          <Property Name="Recipe" Type="text" />
+        </EntityType>
+        <EntityType Name="Tables">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="10" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK__DirectOrd__Direc__46B27FE2">
+          <End Role="DirectOrders" Type="Self.DirectOrders" Multiplicity="0..1" />
+          <End Role="DirectOrderDetails" Type="Self.DirectOrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DirectOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrderDetails">
+              <PropertyRef Name="DirectOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DirectOrd__Table__43D61337">
+          <End Role="Tables" Type="Self.Tables" Multiplicity="0..1" />
+          <End Role="DirectOrders" Type="Self.DirectOrders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrders">
+              <PropertyRef Name="TableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MenuItems__MenuC__3864608B">
+          <End Role="MenuCategories" Type="Self.MenuCategories" Multiplicity="0..1" />
+          <End Role="MenuItems" Type="Self.MenuItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItems">
+              <PropertyRef Name="MenuCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectOrderDetails_MenuItems">
+          <End Role="MenuItems" Type="Self.MenuItems" Multiplicity="0..1" />
+          <End Role="DirectOrderDetails" Type="Self.DirectOrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrderDetails">
+              <PropertyRef Name="MenuItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoffeeShopDBModelStoreContainer">
+          <EntitySet Name="DirectOrderDetails" EntityType="Self.DirectOrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DirectOrders" EntityType="Self.DirectOrders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuCategories" EntityType="Self.MenuCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MenuItems" EntityType="Self.MenuItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tables" EntityType="Self.Tables" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DirectOrd__Direc__46B27FE2" Association="Self.FK__DirectOrd__Direc__46B27FE2">
+            <End Role="DirectOrders" EntitySet="DirectOrders" />
+            <End Role="DirectOrderDetails" EntitySet="DirectOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DirectOrd__Table__43D61337" Association="Self.FK__DirectOrd__Table__43D61337">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="DirectOrders" EntitySet="DirectOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MenuItems__MenuC__3864608B" Association="Self.FK__MenuItems__MenuC__3864608B">
+            <End Role="MenuCategories" EntitySet="MenuCategories" />
+            <End Role="MenuItems" EntitySet="MenuItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectOrderDetails_MenuItems" Association="Self.FK_DirectOrderDetails_MenuItems">
+            <End Role="MenuItems" EntitySet="MenuItems" />
+            <End Role="DirectOrderDetails" EntitySet="DirectOrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CoffeeShopDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DirectOrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DirectOrderId" Type="Int32" />
+          <Property Name="MenuItemId" Type="Int32" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PriceEach" Type="Double" />
+          <NavigationProperty Name="DirectOrder" Relationship="Self.FK__DirectOrd__Direc__46B27FE2" FromRole="DirectOrderDetails" ToRole="DirectOrders" />
+          <NavigationProperty Name="MenuItem" Relationship="Self.FK_DirectOrderDetails_MenuItems" FromRole="DirectOrderDetails" ToRole="MenuItems" />
+        </EntityType>
+        <EntityType Name="DirectOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArrivedTime" Type="DateTime" Precision="3" />
+          <Property Name="LeavedTime" Type="DateTime" Precision="3" />
+          <Property Name="TableId" Type="Int32" />
+          <Property Name="TotalPrice" Type="Double" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DirectOrderDetails" Relationship="Self.FK__DirectOrd__Direc__46B27FE2" FromRole="DirectOrders" ToRole="DirectOrderDetails" />
+          <NavigationProperty Name="Table" Relationship="Self.FK__DirectOrd__Table__43D61337" FromRole="DirectOrders" ToRole="Tables" />
+        </EntityType>
+        <EntityType Name="MenuCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MenuItems" Relationship="Self.FK__MenuItems__MenuC__3864608B" FromRole="MenuCategories" ToRole="MenuItems" />
+        </EntityType>
+        <EntityType Name="MenuItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MenuCategoryId" Type="Int32" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PictureUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Sale_Amount" Type="Double" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Recipe" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DirectOrderDetails" Relationship="Self.FK_DirectOrderDetails_MenuItems" FromRole="MenuItems" ToRole="DirectOrderDetails" />
+          <NavigationProperty Name="MenuCategory" Relationship="Self.FK__MenuItems__MenuC__3864608B" FromRole="MenuItems" ToRole="MenuCategories" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DirectOrders" Relationship="Self.FK__DirectOrd__Table__43D61337" FromRole="Tables" ToRole="DirectOrders" />
+        </EntityType>
+        <Association Name="FK__DirectOrd__Direc__46B27FE2">
+          <End Role="DirectOrders" Type="Self.DirectOrder" Multiplicity="0..1" />
+          <End Role="DirectOrderDetails" Type="Self.DirectOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DirectOrders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrderDetails">
+              <PropertyRef Name="DirectOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DirectOrderDetails_MenuItems">
+          <End Role="MenuItems" Type="Self.MenuItem" Multiplicity="0..1" />
+          <End Role="DirectOrderDetails" Type="Self.DirectOrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrderDetails">
+              <PropertyRef Name="MenuItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DirectOrd__Table__43D61337">
+          <End Role="Tables" Type="Self.Table" Multiplicity="0..1" />
+          <End Role="DirectOrders" Type="Self.DirectOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tables">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DirectOrders">
+              <PropertyRef Name="TableId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MenuItems__MenuC__3864608B">
+          <End Role="MenuCategories" Type="Self.MenuCategory" Multiplicity="0..1" />
+          <End Role="MenuItems" Type="Self.MenuItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MenuCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MenuItems">
+              <PropertyRef Name="MenuCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CoffeeShopDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DirectOrderDetails" EntityType="Self.DirectOrderDetail" />
+          <EntitySet Name="DirectOrders" EntityType="Self.DirectOrder" />
+          <EntitySet Name="MenuCategories" EntityType="Self.MenuCategory" />
+          <EntitySet Name="MenuItems" EntityType="Self.MenuItem" />
+          <EntitySet Name="Tables" EntityType="Self.Table" />
+          <AssociationSet Name="FK__DirectOrd__Direc__46B27FE2" Association="Self.FK__DirectOrd__Direc__46B27FE2">
+            <End Role="DirectOrders" EntitySet="DirectOrders" />
+            <End Role="DirectOrderDetails" EntitySet="DirectOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DirectOrderDetails_MenuItems" Association="Self.FK_DirectOrderDetails_MenuItems">
+            <End Role="MenuItems" EntitySet="MenuItems" />
+            <End Role="DirectOrderDetails" EntitySet="DirectOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DirectOrd__Table__43D61337" Association="Self.FK__DirectOrd__Table__43D61337">
+            <End Role="Tables" EntitySet="Tables" />
+            <End Role="DirectOrders" EntitySet="DirectOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MenuItems__MenuC__3864608B" Association="Self.FK__MenuItems__MenuC__3864608B">
+            <End Role="MenuCategories" EntitySet="MenuCategories" />
+            <End Role="MenuItems" EntitySet="MenuItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CoffeeShopDBModelStoreContainer" CdmEntityContainer="CoffeeShopDBEntities">
+          <EntitySetMapping Name="DirectOrderDetails">
+            <EntityTypeMapping TypeName="CoffeeShopDBModel.DirectOrderDetail">
+              <MappingFragment StoreEntitySet="DirectOrderDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DirectOrderId" ColumnName="DirectOrderId" />
+                <ScalarProperty Name="MenuItemId" ColumnName="MenuItemId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PriceEach" ColumnName="PriceEach" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DirectOrders">
+            <EntityTypeMapping TypeName="CoffeeShopDBModel.DirectOrder">
+              <MappingFragment StoreEntitySet="DirectOrders">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ArrivedTime" ColumnName="ArrivedTime" />
+                <ScalarProperty Name="LeavedTime" ColumnName="LeavedTime" />
+                <ScalarProperty Name="TableId" ColumnName="TableId" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuCategories">
+            <EntityTypeMapping TypeName="CoffeeShopDBModel.MenuCategory">
+              <MappingFragment StoreEntitySet="MenuCategories">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MenuItems">
+            <EntityTypeMapping TypeName="CoffeeShopDBModel.MenuItem">
+              <MappingFragment StoreEntitySet="MenuItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="MenuCategoryId" ColumnName="MenuCategoryId" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Sale_Amount" ColumnName="Sale_Amount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Recipe" ColumnName="Recipe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="CoffeeShopDBModel.Table">
+              <MappingFragment StoreEntitySet="Tables">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
